@@ -1,0 +1,9 @@
+{
+    "python.defaultInterpreterPath": "/Volumes/DataExt/anaconda3/envs/glean-312/bin/python",
+    "terminal.integrated.defaultProfile.linux": "zsh",
+    "terminal.integrated.profiles.linux": {
+        "zsh": {
+            "path": "zsh"
+        }
+    }
+}
