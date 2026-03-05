@@ -31,29 +31,34 @@ Template agent using the beeai framework (original from Nick Nochette's BuildMCP
 - UV package manager
 - FAQ RAG API running on `http://localhost:8000`
 
-### Step 1: Start the FAQ RAG API
+### Step 1: Install Dependencies (from project root)
 ```bash
 # From the parent directory
 cd ..
+pip install -r requirements.txt
+```
+
+### Step 2: Start the FAQ RAG API
+```bash
+# From the parent directory
 python api_server.py
 # or
 ./start-api.sh
 ```
 
-### Step 2: Run the MCP Server
+### Step 3: Run the MCP Server
 ```bash
+# Uses the parent .venv
 cd MCPServer
-uv venv
-source .venv/bin/activate
-uv add mcp requests
+source ../.venv/bin/activate
 uv run faq_mcp_server.py
 ```
 
-### Step 3: Run the FAQ Agent
+### Step 4: Run the FAQ Agent
 ```bash
-# In a separate terminal
+# In a separate terminal, uses the parent .venv
 cd MCPServer
-source .venv/bin/activate
+source ../.venv/bin/activate
 uv run faq_agent.py
 ```
 
@@ -104,10 +109,6 @@ export LOG_LEVEL=DEBUG
 
 ## 📺 Original Build MCP Server Reference
 
-### See it live and in action
-<a href="https://www.linkedin.com/posts/nicholasrenotte_mcp-servers-make-tools-a-bunch-easier-for-activity-7305748751162163200-dIEn?utm_source=share&utm_medium=member_desktop&rcm=ACoAABbxZgUBrud9C531KZPQHCs2riXCiv9Av2A">
-  <img src="https://i.imgur.com/Y2LN9dd.png" alt="MCP Server Demo"/>
-</a>
 
 ### Original Setup Instructions
 1. Clone the original repo: `git clone https://github.com/nicknochnack/BuildMCPServer`
@@ -130,8 +131,6 @@ export LOG_LEVEL=DEBUG
 
 ## 🔗 References
 - [Building MCP Clients](https://github.com/RGGH/mcp-client-x/blob/main/src/client/mcp_client.py)
-- [Original Video Tutorial](https://www.youtube.com/watch?v=C82lT9cWQiA&t=1003s)
-- [BeeAI Framework](https://github.com/i-am-bee/beeai-framework)
 - [MCP Protocol](https://modelcontextprotocol.io/)
 
 ---
@@ -154,13 +153,3 @@ export LOG_LEVEL=DEBUG
 }
 ```
 
-### Employee Churn (Original ML Model)
-```json
-[
-    {
-        "YearsAtCompany": 10,
-        "EmployeeSatisfaction": 0.99,
-        "Position": "Non-Manager",
-        "Salary": 5
-    }
-]
