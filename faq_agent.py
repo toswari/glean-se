@@ -108,7 +108,8 @@ async def main() -> None:
 
         # Sample question for testing
         prompt2 = "How do I reset my password?"
-        prompt="How does our equity vesting schedule work?"
+        prompt3="How does our equity vesting schedule work?"
+        prompt="How do I reset my password?"
         
 
         # Initialize memory with user prompt
