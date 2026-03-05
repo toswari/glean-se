@@ -19,4 +19,4 @@ fi
 
 # Run the agent
 echo "Starting single flow agent..."
-python  singleflowagent.py
+uv run faq_agent.py  
