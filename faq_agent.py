@@ -7,7 +7,7 @@ and the FAQ RAG API service.
 import asyncio
 import os
 import traceback
-from typing import Any, Optional
+from typing import Any
 
 from pydantic import ValidationError
 
@@ -20,7 +20,7 @@ from beeai_framework.emitter.types import EmitterOptions
 from beeai_framework.emitter.emitter import Emitter, EventMeta
 
 # Import agent components
-from beeai_framework.workflows.agent import AgentWorkflow, AgentWorkflowInput
+from beeai_framework.workflows.agent import AgentFactoryInput, AgentWorkflow
 from beeai_framework.workflows.workflow import WorkflowError
 
 # MCP Tool
@@ -91,22 +91,16 @@ async def main() -> None:
         # Get tools for the FAQ agent
         tools = await tools_from_faq_server()
         
-        # Add the FAQ agent with RAG capabilities
+        # Add the FAQ agent with RAG capabilities using AgentFactoryInput pattern
         workflow.add_agent(
-            name="FAQAssistant",
-            role="You are an FAQ assistant that helps answer questions based on the company's FAQ documents.",
-            instructions="""You are an FAQ assistant that helps answer questions based on the company's FAQ documents.
-                
-Guidelines:
-1. Use the ask_question tool to retrieve answers from the FAQ knowledge base
-2. Always provide accurate information based on the retrieved context
-3. If the context doesn't contain the answer, clearly state that
-4. Be concise and helpful in your responses
-5. Cite sources when available
-""",
-            tools=tools,
-            llm=llm,
-            execution=AgentExecutionConfig(max_iterations=3),
+            agent=AgentFactoryInput(
+                model_config={"stream": True},
+                name="FAQAssistant",
+                instructions="You are an FAQ assistant that helps answer questions based on the company's FAQ documents. Use the ask_question tool to retrieve answers from the FAQ knowledge base. Always provide accurate information based on the retrieved context. If the context doesn't contain the answer, clearly state that. Be concise and helpful in your responses. Cite sources when available.",
+                tools=tools,
+                llm=llm,
+                execution=AgentExecutionConfig(max_iterations=3),
+            )
         )
 
         # Sample question for testing
