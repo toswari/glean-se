@@ -3,10 +3,11 @@ from mcp.server.fastmcp import FastMCP
 import json
 import requests
 from typing import List
+import logging
 
 # Server created
 mcp = FastMCP("churnandburn")
-
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s", filename="mcp_server.log", filemode="a")
 
 # Create the tool
 @mcp.tool()
@@ -16,10 +17,10 @@ def PredictChurn(data: List[dict]) -> str:
         data: employee attributes which are used for inference. Example payload
 
         [{
-        'YearsAtCompany':10,
-        'EmployeeSatisfaction':0.99,
-        'Position':'Non-Manager',
-        'Salary:5.0
+        "YearsAtCompany": 10,
+        "EmployeeSatisfaction": 0.99,
+        "Position":"Non-Manager",
+        "Salary": 5
         }]
 
     Returns:
