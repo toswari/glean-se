@@ -1,6 +1,18 @@
-openai>=1.30.0
-numpy>=1.26.0
-tqdm>=4.66.0
+# API Framework
 fastapi>=0.111.0
 uvicorn>=0.30.0
 pydantic>=2.0.0
+
+# Vector Database Client
+weaviate-client>=4.0.0
+
+# Document Parsing
+docling>=2.0.0
+
+# AI/ML - Alibaba Cloud (DashScope) compatible
+openai>=1.30.0
+numpy>=1.26.0
+
+# Utilities
+tqdm>=4.66.0
+python-dotenv>=1.0.0
