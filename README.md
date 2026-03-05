@@ -48,18 +48,14 @@ python api_server.py
 
 ### Step 3: Run the MCP Server
 ```bash
-# Uses the parent .venv
-cd MCPServer
-source ../.venv/bin/activate
-uv run faq_mcp_server.py
+# From the project root directory
+./start-mcp.sh
 ```
 
 ### Step 4: Run the FAQ Agent
 ```bash
-# In a separate terminal, uses the parent .venv
-cd MCPServer
-source ../.venv/bin/activate
-uv run faq_agent.py
+# In a separate terminal, from the project root directory
+./start-faq-agent.sh
 ```
 
 ---
