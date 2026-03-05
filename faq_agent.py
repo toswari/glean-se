@@ -46,14 +46,14 @@ faq_server_params = StdioServerParameters(
 )
 
 
-async def tools_from_faq_server() -> MCPTool:
+async def tools_from_faq_server() -> list[MCPTool]:
     """Connect to the FAQ MCP server and retrieve tools."""
     async with (
         stdio_client(faq_server_params) as (read, write),
         ClientSession(read, write) as session,
     ):
         await session.initialize()
-        return await MCPTool.from_client(session, faq_server_params)
+        return await MCPTool.from_client(session)
 
 
 async def process_agent_events(
@@ -88,12 +88,14 @@ async def main() -> None:
         # Create workflow with FAQ agent
         workflow = AgentWorkflow(name="FAQ Assistant")
         
+        # Get tools for the FAQ agent
+        tools = await tools_from_faq_server()
+        
         # Add the FAQ agent with RAG capabilities
         workflow.add_agent(
-            agent=AgentWorkflowInput(
-                model_config={"stream": True},
-                name="FAQAssistant",
-                instructions="""You are an FAQ assistant that helps answer questions based on the company's FAQ documents.
+            name="FAQAssistant",
+            role="You are an FAQ assistant that helps answer questions based on the company's FAQ documents.",
+            instructions="""You are an FAQ assistant that helps answer questions based on the company's FAQ documents.
                 
 Guidelines:
 1. Use the ask_question tool to retrieve answers from the FAQ knowledge base
@@ -102,10 +104,9 @@ Guidelines:
 4. Be concise and helpful in your responses
 5. Cite sources when available
 """,
-                tools=await tools_from_faq_server(),
-                llm=llm,
-                execution=AgentExecutionConfig(max_iterations=3),
-            )
+            tools=tools,
+            llm=llm,
+            execution=AgentExecutionConfig(max_iterations=3),
         )
 
         # Sample question for testing
@@ -115,8 +116,8 @@ Guidelines:
         memory = UnconstrainedMemory()
         await memory.add(UserMessage(content=prompt))
         
-        # Run the workflow
-        await workflow.run(messages=memory.messages).observe(observer)
+        # Run the workflow with the input messages
+        await workflow.run(memory.messages).observe(observer)
 
     except WorkflowError:
         traceback.print_exc()
