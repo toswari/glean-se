@@ -107,8 +107,10 @@ async def main() -> None:
         )
 
         # Sample question for testing
-        prompt = "How do I reset my password?"
+        prompt2 = "How do I reset my password?"
+        prompt="How does our equity vesting schedule work?"
         
+
         # Initialize memory with user prompt
         memory = UnconstrainedMemory()
         await memory.add(UserMessage(content=prompt))
