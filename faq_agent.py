@@ -24,7 +24,7 @@ from beeai_framework.workflows.agent import AgentFactoryInput, AgentWorkflow
 from beeai_framework.workflows.workflow import WorkflowError
 
 # MCP Tool
-from beeai_framework.tools.mcp import MCPTool
+from beeai_framework.tools.mcp_tools import MCPTool
 from mcp.client.stdio import stdio_client
 from mcp import ClientSession, StdioServerParameters
 
@@ -37,10 +37,13 @@ API_URL = os.getenv("API_URL", "http://localhost:8000")
 
 # Create connection to FAQ RAG API Server via MCP
 # The MCP server provides tools for interacting with the FAQ RAG system
+import sys
+import os
+script_dir = os.path.dirname(os.path.abspath(__file__))
 faq_server_params = StdioServerParameters(
-    command="python",
+    command=sys.executable,
     args=[
-        "faq_mcp_server.py",  # MCP server that wraps the FAQ RAG API
+        os.path.join(script_dir, "faq_mcp_server.py"),  # MCP server that wraps the FAQ RAG API
     ],
     env={"API_URL": API_URL},
 )
@@ -53,7 +56,7 @@ async def tools_from_faq_server() -> list[MCPTool]:
         ClientSession(read, write) as session,
     ):
         await session.initialize()
-        return await MCPTool.from_client(session)
+        return await MCPTool.from_client(session, faq_server_params)
 
 
 async def process_agent_events(

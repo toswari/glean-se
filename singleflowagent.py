@@ -14,11 +14,11 @@ from beeai_framework.emitter.emitter import Emitter, EventMeta
 
 
 # Import agent components
-from beeai_framework.workflows.agent import AgentWorkflow, AgentWorkflowInput
+from beeai_framework.workflows.agent import AgentFactoryInput, AgentWorkflow
 from beeai_framework.workflows.workflow import WorkflowError
 
 # MCP Tool
-from beeai_framework.tools.mcp import MCPTool
+from beeai_framework.tools.mcp_tools import MCPTool
 from mcp.client.stdio import stdio_client
 from mcp import ClientSession, StdioServerParameters
 
@@ -72,7 +72,7 @@ async def main() -> None:
     try:
         workflow = AgentWorkflow(name="Smart assistant")
         workflow.add_agent(
-            agent=AgentWorkflowInput(
+            agent=AgentFactoryInput(
                 model_config={"stream": True},
                 name="EmployeeChurn",
                 instructions="You are a churn prediction specialist capable of predicting whether an employee will churn. Respond only if you can provide a useful answer.",
