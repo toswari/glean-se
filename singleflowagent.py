@@ -18,7 +18,7 @@ from beeai_framework.workflows.agent import AgentWorkflow, AgentWorkflowInput
 from beeai_framework.workflows.workflow import WorkflowError
 
 # MCP Tool
-from beeai_framework.tools.mcp_tools import MCPTool
+from beeai_framework.tools.mcp import MCPTool
 from mcp.client.stdio import stdio_client
 from mcp import ClientSession, StdioServerParameters
 
