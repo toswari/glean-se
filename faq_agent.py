@@ -20,7 +20,7 @@ from beeai_framework.emitter.types import EmitterOptions
 from beeai_framework.emitter.emitter import Emitter, EventMeta
 
 # Import agent components
-from beeai_framework.workflows.agent import AgentFactoryInput, AgentWorkflow
+from beeai_framework.workflows.agent import AgentWorkflow, AgentWorkflowInput
 from beeai_framework.workflows.workflow import WorkflowError
 
 # MCP Tool
@@ -38,9 +38,8 @@ API_URL = os.getenv("API_URL", "http://localhost:8000")
 # Create connection to FAQ RAG API Server via MCP
 # The MCP server provides tools for interacting with the FAQ RAG system
 faq_server_params = StdioServerParameters(
-    command="uv",
+    command="python",
     args=[
-        "run",
         "faq_mcp_server.py",  # MCP server that wraps the FAQ RAG API
     ],
     env={"API_URL": API_URL},
@@ -91,7 +90,7 @@ async def main() -> None:
         
         # Add the FAQ agent with RAG capabilities
         workflow.add_agent(
-            agent=AgentFactoryInput(
+            agent=AgentWorkflowInput(
                 model_config={"stream": True},
                 name="FAQAssistant",
                 instructions="""You are an FAQ assistant that helps answer questions based on the company's FAQ documents.
